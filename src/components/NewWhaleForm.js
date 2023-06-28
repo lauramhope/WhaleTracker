@@ -11,7 +11,7 @@ function NewWhaleForm(props){
       location: event.target.location.value,
       date: event.target.date.value,
       id: v4()
-    })
+    });
   }
 
   return (
@@ -19,12 +19,20 @@ function NewWhaleForm(props){
       <form onSubmit={handleNewWhaleFormSubmission}>
         <input 
           type="text"
-          name="whale"
-          placeholder="whales"/>
-        <button type="submit">Submit Whale</button>
+          name="species"
+          placeholder="type of whale"/>
+        <input 
+          type="text"
+          name="location"
+          placeholder="location spotted"/>
+        <input 
+          type="text"
+          name="date"
+          placeholder="some date"/>
+        <button type='submit'>Submit Whale</button>
       </form>
     </React.Fragment>
-  )
+  );
 }
 
 NewWhaleForm.propTypes = {
