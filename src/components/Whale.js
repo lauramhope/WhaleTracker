@@ -5,9 +5,9 @@ function Whale(props){
   return(
     <React.Fragment>
       <div onClick = {() => props.whenWhaleClicked(props.id)}>
-        <h3>Species: {props.species}</h3>
-        <p>Date: {props.date}</p>
-        <p>Location: {props.location}</p>
+        <h3>{props.species}</h3>
+        <p>{props.date}</p>
+        <p>{props.location}</p>
       </div>
     </React.Fragment>
   );

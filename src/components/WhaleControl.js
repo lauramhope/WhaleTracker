@@ -2,15 +2,17 @@ import React from 'react';
 import WhaleList from './WhaleList';
 import NewWhaleForm from "./NewWhaleForm";
 import WhaleDetail from './WhaleDetail';
-// import EditWhaleForm from './EditWhaleForm';
+import EditWhaleForm from './EditWhaleForm';
 
 class WhaleControl extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       formVisibleOnPage: false,
       mainWhaleList: [],
-      selectedWhale: null
+      selectedWhale: null,
+      editing: false
     };
   }
 
@@ -18,25 +20,27 @@ class WhaleControl extends React.Component {
     const selectWhale = this.state.mainWhaleList.filter(whale => whale.id === id)[0];
     this.setState({selectedWhale: selectWhale});
   }
-  // OLD HANDLE CLICK for reference
-  // handleClick = () => {
-  //   this.setState(prevState => ({
-  //     formVisibleOnPage: !prevState.formVisibleOnPage
-  //   }));
-  // }
 
-  
   handleClick = () => {
     if(this.state.selectedWhale != null){
       this.setState({
         formVisibleOnPage: false,
-        selectedWhale: null
+        selectedWhale: null,
+        editing: false
       });
     }else {
       this.setState(prevState => ({
         formVisibleOnPage: !prevState.formVisibleOnPage
       }));
+    }
   }
+
+  handleDeletingWhale = (id) => {
+    const selectWhale = this.state.mainWhaleList.filter(whale => whale.id !== id);
+    this.setState({
+      mainWhaleList: selectWhale,
+      selectedWhale: null
+    });
   }
 
   handleEditingWhaleInList = (whaleToEdit) => {
@@ -50,6 +54,11 @@ class WhaleControl extends React.Component {
     });
   }
 
+  handleEditClick = () => {
+    console.log("handleEditClick reached!");
+    this.setState({editing: true});
+  }
+
   handleAddNewWhaleToList = (newWhale) => {
     const newWhaleList = this.state.mainWhaleList.concat(newWhale);
     this.setState({mainWhaleList: newWhaleList,
@@ -60,10 +69,13 @@ class WhaleControl extends React.Component {
     let currentlyVisibleState = null;
     let buttonText = null;
 
-    if(this.state.selectedWhale != null){
-      currentlyVisibleState = <WhaleDetail whale={this.state.selectedWhale} />
-      buttonText = "Return to Ticket List";
-    }else if (this.state.formVisibleOnPage) {
+    if(this.state.editing){
+      currentlyVisibleState = <EditWhaleForm whale = {this.state.selectedWhale} onEditWhale = {this.handleEditingWhaleInList} />
+      buttonText = "Return to Whale List";
+    } else if(this.state.selectedWhale != null){
+      currentlyVisibleState = <WhaleDetail whale={this.state.selectedWhale} onClickingDelete = {this.handleDeletingWhale} />
+      buttonText = "Return to Whale List";
+    } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewWhaleForm onNewWhaleCreation={this.handleAddNewWhaleToList} />;
       buttonText = "Return to Whale List";
     } else {

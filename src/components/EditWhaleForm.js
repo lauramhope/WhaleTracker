@@ -1,27 +1,30 @@
-// import React from "react";
-// import ReusableForm from "./ReusableForm";
-// import PropTypes from "prop-types";
+import React from "react";
+import ReusableForm from "./ReusableForm";
+import PropTypes from "prop-types";
 
-// function EditWhaleForm(props) {
-//   const { whale } = props;
+EditWhaleForm.propTypes = {
+  whale: PropTypes.object,
+  onEditWhale: PropTypes.func
+};
 
-//   function handleEditWhaleFormSubmission(event){
-//     event.preventDefault();
-//     props.onEditWhale({species: event.target.species.value, location: event.target.location.value, date: event.target.date.value, id: whale.id});
-//   }
+function EditWhaleForm(props) {
+  const { whale } = props;
 
-//   return (
-//     <React.Fragment>
-//       <ReusableForm
-//         formSubmissionHandler={handleEditWhaleFormSubmission}
-//         buttonText="Update Whale" />
-//     </React.Fragment>
-//   );
-// }
+  function handleEditWhaleFormSubmission(event){
+    event.preventDefault();
+    props.onEditWhale({species: event.target.species.value,
+       location: event.target.location.value, 
+       date: event.target.date.value, 
+       id: whale.id});
+  }
 
-// EditWhaleForm.propTypes = {
-//   whale: PropTypes.object,
-//   onEditWhale: PropTypes.func
-// };
+    return (
+      <React.Fragment>
+        <ReusableForm
+          formSubmissionHandler={handleEditWhaleFormSubmission}
+          buttonText="Update Whale" />
+      </React.Fragment>
+    );
+}
 
-// export default EditWhaleForm;
+export default EditWhaleForm;

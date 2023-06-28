@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 } from 'uuid';
 import PropTypes from "prop-types";
-
+import ReusableForm from "./ReusableForm";
 
 function NewWhaleForm(props){
   function handleNewWhaleFormSubmission(event){
@@ -16,21 +16,9 @@ function NewWhaleForm(props){
 
   return (
     <React.Fragment>
-      <form onSubmit={handleNewWhaleFormSubmission}>
-        <input 
-          type="text"
-          name="species"
-          placeholder="type of whale"/>
-        <input 
-          type="text"
-          name="location"
-          placeholder="location spotted"/>
-        <input 
-          type="text"
-          name="date"
-          placeholder="some date"/>
-        <button type='submit'>Submit Whale</button>
-      </form>
+      <ReusableForm
+        formSubmissionHandler={handleNewWhaleFormSubmission}
+        buttonText="Add Whale" />
     </React.Fragment>
   );
 }
