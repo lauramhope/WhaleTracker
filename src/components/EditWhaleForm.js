@@ -10,11 +10,12 @@ EditWhaleForm.propTypes = {
 function EditWhaleForm(props) {
   const { whale } = props;
 
-  function handleEditWhaleFormSubmission(event){
-    event.preventDefault();
-    props.onEditWhale({species: event.target.species.value,
-       location: event.target.location.value, 
-       date: event.target.date.value, 
+  function handleEditWhaleFormSubmission(e){
+    e.preventDefault();
+    props.onEditWhale({species: e.target.species.value,
+       location: e.target.location.value, 
+       date: e.target.date.value,
+       event: props.counter, 
        id: whale.id});
   }
 
@@ -22,7 +23,7 @@ function EditWhaleForm(props) {
       <React.Fragment>
         <ReusableForm
           formSubmissionHandler={handleEditWhaleFormSubmission}
-          buttonText="Update Whale" />
+          buttonText="Edit Whale" />
       </React.Fragment>
     );
 }

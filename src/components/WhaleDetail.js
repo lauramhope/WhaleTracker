@@ -10,8 +10,9 @@ function WhaleDetail(props){
       <h3>{whale.species}</h3>
       <h3>{whale.location}</h3>
       <h3>{whale.date}</h3>
+      <h3>{whale.event}</h3>
       <button onClick={()=> props.onClickingDelete(whale.id)}>Delete Whale</button>
-      <button onClick={props.onClickingEdit}>Update Whale Details</button>
+      <button onClick={()=>props.onClickingEdit(whale.id)}>Edit Whale Details</button>
     </React.Fragment>
   );
 }

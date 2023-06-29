@@ -3,6 +3,7 @@ import WhaleList from './WhaleList';
 import NewWhaleForm from "./NewWhaleForm";
 import WhaleDetail from './WhaleDetail';
 import EditWhaleForm from './EditWhaleForm';
+import WhaleCounter from './WhaleCounter';
 
 class WhaleControl extends React.Component {
 
@@ -12,7 +13,8 @@ class WhaleControl extends React.Component {
       formVisibleOnPage: false,
       mainWhaleList: [],
       selectedWhale: null,
-      editing: false
+      editing: false,
+      eventCounter: 0 // <- whale counter
     };
   }
 
@@ -39,7 +41,8 @@ class WhaleControl extends React.Component {
     const selectWhale = this.state.mainWhaleList.filter(whale => whale.id !== id);
     this.setState({
       mainWhaleList: selectWhale,
-      selectedWhale: null
+      selectedWhale: null,
+      eventCounter: this.state.eventCounter -1
     });
   }
 
@@ -59,21 +62,35 @@ class WhaleControl extends React.Component {
     this.setState({editing: true});
   }
 
+  // handleAddNewWhaleToList = (newWhale) => {
+  //   const newWhaleList = this.state.mainWhaleList.concat(newWhale);
+  //   this.setState({mainWhaleList: newWhaleList,
+  //   formVisibleOnPage: false});
+  // }
+
   handleAddNewWhaleToList = (newWhale) => {
-    const newWhaleList = this.state.mainWhaleList.concat(newWhale);
+    const updatedWhale = {
+      ...newWhale,
+      event: this.state.eventCounter + 1,
+    };
+    const newWhaleList = this.state.mainWhaleList.concat(updatedWhale);
     this.setState({mainWhaleList: newWhaleList,
-    formVisibleOnPage: false});
+    formVisibleOnPage: false,
+    eventCounter: this.state.eventCounter + 1});
   }
 
   render(){
     let currentlyVisibleState = null;
     let buttonText = null;
+    let whaleCounterText = null;
+    
+    //let whaleCounterText = <WhaleCounter amountOfWhales = {this.state.eventCounter}/>
 
     if(this.state.editing){
-      currentlyVisibleState = <EditWhaleForm whale = {this.state.selectedWhale} onEditWhale = {this.handleEditingWhaleInList} />
+      currentlyVisibleState = <EditWhaleForm whale = {this.state.selectedWhale} onEditWhale = {this.handleEditingWhaleInList} counter={this.state.eventCounter}/>
       buttonText = "Return to Whale List";
     } else if(this.state.selectedWhale != null){
-      currentlyVisibleState = <WhaleDetail whale={this.state.selectedWhale} onClickingDelete = {this.handleDeletingWhale} />
+      currentlyVisibleState = <WhaleDetail whale={this.state.selectedWhale} onClickingDelete = {this.handleDeletingWhale} onClickingEdit ={this.handleEditClick} />
       buttonText = "Return to Whale List";
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewWhaleForm onNewWhaleCreation={this.handleAddNewWhaleToList} />;
@@ -84,6 +101,7 @@ class WhaleControl extends React.Component {
     }
     return (
       <React.Fragment>
+        {whaleCounterText}
         {currentlyVisibleState}
         <button onClick={this.handleClick}>{buttonText}</button>
       </React.Fragment>
@@ -92,3 +110,4 @@ class WhaleControl extends React.Component {
 }
 
 export default WhaleControl;
+
